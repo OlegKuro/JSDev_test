@@ -45,13 +45,13 @@
                 $(window).on("mousemove" , function(document){
                     $(".circle").each(function(i){
                         const elem = $(this);
-                              elWidth = elem.width(); 
+                        const elWidth = elem.width();       // it's constant?
                         const elemX = elem.data('x');
-                              elemY = elem.data('y');
+                        const elemY = elem.data('y');
                         const mouseX = document.clientX;
-                              mouseY = document.clientY;
+                        const mouseY = document.clientY;
                         const dx = mouseX - elemX + elWidth / 2,
-                              dy = mouseY - elemY + elWidth / 2;
+                           dy = mouseY - elemY + elWidth / 2;
                         const distanceToCenter = dx * dx + dy * dy;
                         if (distanceToCenter < 100 * elWidth ** 2) {
                           setTimeout(distanceToCenter < elWidth ** 2 ?
