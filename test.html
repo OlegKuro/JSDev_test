@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
+        <title>Тестовое задание</title>
     </head>
     <body>
         <style>
@@ -10,9 +12,11 @@
                 width: 100%;
                 height: 100%;
             }
+            
             body {
                 background: #efefef;
             }
+            
             .circle {
                 background: #444;
                 position: absolute;
@@ -20,6 +24,7 @@
                 height: 40px;
                 border-radius: 100px;
             }
+            
             .circle-shadow {
                 background: #ddd;
                 position: absolute;
@@ -27,11 +32,13 @@
                 height: 40px;
                 border-radius: 100px;
             }
+            
             .transition {
-                transition: all .3s;
+                transition: top .3s, left .3s;
             }
-        </style>
 
+        </style>
+        
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
         <script>
             var body = $("body");
@@ -42,38 +49,39 @@
                         body.append("<div class='circle-shadow' data-x='" + x + "' data-y='" + y + "' style='top:" + y + "px;left:" + x +"px'></div><div class='circle' data-x='" + x + "' data-y='" + y + "' style='top:" + y + "px;left:" + x + "px'></div>");
                     }
                 }
+            
+            try {
                 $(window).on("mousemove" , function(document){
                     $(".circle").each(function(i){
-                        const elem = $(this);
-                        const elWidth = elem.width();       // it's constant?
-                        const elemX = elem.data('x');
-                        const elemY = elem.data('y');
-                        const mouseX = document.clientX;
-                        const mouseY = document.clientY;
-                        const dx = mouseX - elemX + elWidth / 2,
-                           dy = mouseY - elemY + elWidth / 2;
-                        const distanceToCenter = dx * dx + dy * dy;
-                        if (distanceToCenter < 100 * elWidth ** 2) {
-                          setTimeout(distanceToCenter < elWidth ** 2 ?
-                            function() {
-                                elem.removeClass("transition");
+                        var elem = $(this),
+                        elWidth = elem.width(),
+                        x0 = elem.data("x")+elWidth/2,
+                        y0 = elem.data("y")+elWidth/2;
+                        return setTimeout(function() {
+                            var dx=document.clientX-x0,
+                            dy=document.clientY-y0;
+                            return (Math.sqrt(dx*dx+dy*dy) < elWidth) ? 
+                            (function(){
                                 elem.css({
-                                    left: elemX - dx  + "px",
-                                    top: elemY - dy + "px"
+                                    left:x0-dx-elWidth/2+"px",
+                                    top:y0-dy-elWidth/2+"px"
                                 });
-                            }
-                            :
-                            function(){
+                                elem.removeClass("transition");
+                            })() :
+                            (function(){
                                 elem.addClass("transition");
                                 elem.css({
-                                    left: elemX + "px",
-                                    top: elemY + "px"
+                                    left:x0-elWidth/2+"px",
+                                    top:y0-elWidth/2+"px"
                                 });
-                            }
-                            , 0);
-                          }
+                            })();
+                        }, 0);
                     });
                 });
+            } catch(window) {
+                if (window) 
+                    alert(window);
+            }
         </script>
     </body>
 </html>
